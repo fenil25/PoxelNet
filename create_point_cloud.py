@@ -35,8 +35,8 @@ for idx, class_name in enumerate(os.listdir(DIR_PATH)):
 		test_file_name = os.path.join(test_class_path, file_name)
 		mesh = trimesh.load(test_file_name)
 		points = mesh.sample(args.N).astype('float32')
-        scaler = MinMaxScaler((-1, 1))
-        points = scaler.fit_transform(points)
+		scaler = MinMaxScaler((-1, 1))
+		points = scaler.fit_transform(points)
 		test_points.append(points)
 		test_labels.append(idx)
 
