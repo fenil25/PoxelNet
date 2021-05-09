@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import torch
-from sklearn.preprocessing import MinMaxScaler
 from transformations import CoordinateTransformation
 
 class ModelNet40(torch.utils.data.Dataset):
@@ -32,8 +31,6 @@ class ModelNet40(torch.utils.data.Dataset):
         else:
             points = self.test_points[idx]
             label = self.test_labels[idx]
-        scaler = MinMaxScaler((-1, 1))
-        points = scaler.fit_transform(points)
         if self.transform is not None:
         	points = self.transform.apply_transformation(points)
         coordinates = points.astype('float32')

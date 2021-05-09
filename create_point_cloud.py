@@ -2,6 +2,7 @@ import os
 import numpy as np
 import argparse
 import trimesh
+from sklearn.preprocessing import MinMaxScaler
 
 parser = argparse.ArgumentParser(description='Sample Points from Meshes and Create Point Cloud Dataset')
 parser.add_argument('--path', type=str, help='Path to the dataset', required = True)
@@ -25,6 +26,8 @@ for idx, class_name in enumerate(os.listdir(DIR_PATH)):
 		train_file_name = os.path.join(train_class_path, file_name)
 		mesh = trimesh.load(train_file_name)
 		points = mesh.sample(args.N).astype('float32')
+        scaler = MinMaxScaler((-1, 1))
+        points = scaler.fit_transform(points)
 		train_points.append(points)
 		train_labels.append(idx)
 	print(f"Creating testing set for class {class_name}")
@@ -32,6 +35,8 @@ for idx, class_name in enumerate(os.listdir(DIR_PATH)):
 		test_file_name = os.path.join(test_class_path, file_name)
 		mesh = trimesh.load(test_file_name)
 		points = mesh.sample(args.N).astype('float32')
+        scaler = MinMaxScaler((-1, 1))
+        points = scaler.fit_transform(points)
 		test_points.append(points)
 		test_labels.append(idx)
 
