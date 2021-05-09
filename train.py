@@ -83,6 +83,12 @@ if __name__ == '__main__':
 	parser.add_argument("--lr", default=1e-1, type=float, help="Learning rate of SGD optimizer")
 	parser.add_argument("--weight_decay", type=float, default=1e-4, help="Weight decay for optimizer")
 
+    parser.add_argument("--translation", default=0.2, type=float, help="Translations applied to points in a unit sphere")
+    parser.add_argument("--axis_rotations", default=3, type=int, help="Number of axis along which rotations need to be performed")
+    parser.add_argument("--degree_rot", default=30, type=int, help="Maximum degree of angle along which rotation needs to be performed")
+    parser.add_argument("--jitter", default=0.02, type=float, help="Random Jitter that is added to all points")
+    parser.add_argument("--scale_factor", default=0.1, type=float, help="Deviation in scaling factor to all points")
+
 	parser.add_argument("--path_to_dataset", type=str, help="Path to the training and testing points directory", required=True)
 	parser.add_argument("--store_weights", type=str, default="modelnet.pth", help="Location where weights would be stored")
 
@@ -96,7 +102,14 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 	print(args)
 
-	ctr = CoordinateTransformation()
+	ctr = CoordinateTransformation(
+        scale_range=(1-args.scale_factor, 1+args.scale_factor), 
+        rot_range = {"X": (-args.degree_rot, args.degree_rot), 
+            "Y": (-args.degree_rot, args.degree_rot), 
+            "Z": (-args.degree_rot, args.degree_rot)}, 
+        trans=args.translation, jitter=args.jitter, clip=0.04, 
+        rotations=args.axis_rotations
+    )
 
 	print("Loading the ModelNet40 dataset...")
 	train_dataset = ModelNet40(args.path_to_dataset, phase = "train", transform = ctr)

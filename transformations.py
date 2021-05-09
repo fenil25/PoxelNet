@@ -6,13 +6,14 @@ import random
 class CoordinateTransformation:
     def __init__(self, scale_range=(0.9, 1.1), 
                  rot_range = {"X": (-30, 31), "Y": (-30, 31), "Z": (-30, 31)}, 
-                 trans=0.25, jitter=0.025, clip=0.05):
+                 trans=0.25, jitter=0.025, clip=0.05, rotations=3):
         self.scale_range = scale_range
         self.rot_range = rot_range
         self.trans = trans
         self.jitter = jitter
         self.clip = clip
-
+        self.rot = rotations
+        
     def X_rotation(self, points, degree):
         theta = ((math.pi)/180)*degree
         Rx = np.matrix([[1, 0, 0], [0, math.cos(theta), -math.sin(theta)], [0, math.sin(theta), math.cos(theta)]])
@@ -38,15 +39,21 @@ class CoordinateTransformation:
         return points + np.clip(self.jitter * jitter_by, -self.clip, self.clip)
 
     def apply_transformation(self, points):
-        if random.random() < 0.5:
-            X_rot = np.random.randint(self.rot_range["X"][0], self.rot_range["X"][1])
-            points = self.X_rotation(points, X_rot)
-        if random.random() < 0.5:
-            Y_rot = np.random.randint(self.rot_range["Y"][0], self.rot_range["Y"][1])
-            points = self.Y_rotation(points, Y_rot)
-        if random.random() < 0.5:
-            Z_rot = np.random.randint(self.rot_range["Y"][0], self.rot_range["Z"][1])
-            points = self.Z_rotation(points, Z_rot)
+        if self.rot > 0:
+            if self.rot==1:
+                if random.random() < 0.5:
+                    Z_rot = np.random.randint(self.rot_range["Y"][0], self.rot_range["Z"][1])
+                    points = self.Z_rotation(points, Z_rot)
+            else:
+                if random.random() < 0.5:
+                    X_rot = np.random.randint(self.rot_range["X"][0], self.rot_range["X"][1])
+                    points = self.X_rotation(points, X_rot)
+                if random.random() < 0.5:
+                    Y_rot = np.random.randint(self.rot_range["Y"][0], self.rot_range["Y"][1])
+                    points = self.Y_rotation(points, Y_rot)
+                if random.random() < 0.5:
+                    Z_rot = np.random.randint(self.rot_range["Y"][0], self.rot_range["Z"][1])
+                    points = self.Z_rotation(points, Z_rot)
 
         points = np.array(points)
 
