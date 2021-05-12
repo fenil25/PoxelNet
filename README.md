@@ -63,7 +63,7 @@ The testing of the model can be performed via the `test.py` file script. The use
 
 
 Note: The *path to dataset* should include the path to the directory. The directory then should contain the *train.npy* and *test.npy* files which are provided above. The files include the normalized pointcloud for every Modelnet40 object along with corresponding labels
-
+Note: To test the provided `poxelnet_2048.pth` model (Model trained with 2048 points), make sure to use the dataset with 2048 points as `train.npy` and `test.npy`. Similarly, to test the provided `poxelnet_4096.pth` model (Model trained with 4096 points), make sure to use the dataset with 4096 points as `train.npy` and `test.npy`.
 
 
 ## Contributions
