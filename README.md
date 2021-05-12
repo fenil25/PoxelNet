@@ -74,15 +74,15 @@ Almost, the entire code of the project is written by -
 - [Parth Kulkarni](https://github.com/ParthPK)
 
 External code that was utilized in the project - 
-- Some parts of `train` function in the file `train.py` were inspired from examples in MinkowskiEngine.
-- Volumetric model of Poxelnet was inspired by the *MinkowskiFCNN model* provided in MinkowskiEngine Examples.
+- Some parts of `train` function in the file `train.py` and `test` function in the file `test.py` were inspired from examples in MinkowskiEngine.
+- Volumetric model of Poxelnet in `model.py` was inspired by the *MinkowskiFCNN model* provided in MinkowskiEngine Examples.
 - Link to the MinkowskiEngine example can be found [here](https://github.com/NVIDIA/MinkowskiEngine/blob/master/examples/classification_modelnet40.py).
 
 
 ### Individual Contributions 
-- **Fenil Doshi:** The ```transformations.py``` file and `modelnet40_dataset.py` alongwith lines 50-122 of the `model.py` file was programmed by Fenil. 
+- **Fenil Doshi:** Fenil worked on the ```transformations.py``` file and `modelnet40_dataset.py` alongwith lines 50-122 of the `model.py` file. 
 - **Jimit Gandhi:** Jimit worked on writing the code for `create_point_cloud.py` and worked on `train.py` as well as lines 1-30 of the `test.py` file. 
-- **Parth Kulkarni:** Parth was responsible for writing the code for helper functions in `utils.py` and lines 1-50 in the `model.py` file as well as lines 30-58 of the `test.py` file.
+- **Parth Kulkarni:** Parth worked on the helper functions in `utils.py` and lines 1-50 in the `model.py` file as well as lines 30-58 of the `test.py` file.
 
 
 
