@@ -80,9 +80,9 @@ External code that was utilized in the project -
 
 
 ### Individual Contributions 
-- **Fenil Doshi:** Fenil worked on the ```transformations.py``` file and `modelnet40_dataset.py` alongwith lines 50-122 of the `model.py` file. 
+- **Fenil Manish Doshi:** Fenil worked on the ```transformations.py``` file and `modelnet40_dataset.py` alongwith lines 50-122 of the `model.py` file. 
 - **Jimit Gandhi:** Jimit worked on writing the code for `create_point_cloud.py` and worked on `train.py` as well as lines 1-30 of the `test.py` file. 
-- **Parth Kulkarni:** Parth worked on the helper functions in `utils.py` and lines 1-50 in the `model.py` file as well as lines 30-58 of the `test.py` file.
+- **Parth Parag Kulkarni:** Parth worked on the helper functions in `utils.py` and lines 1-50 in the `model.py` file as well as lines 30-58 of the `test.py` file.
 
 
 
