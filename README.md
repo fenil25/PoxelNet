@@ -69,9 +69,9 @@ Note: To test the provided `poxelnet_2048.pth` model (Model trained with 2048 po
 
 ## Contributions
 Almost, the entire code of the project is written by - 
-- [Fenil Doshi](https://github.com/fenil25)
+- [Fenil Manish Doshi](https://github.com/fenil25)
 - [Jimit Gandhi](https://github.com/jimitgandhi)
-- [Parth Kulkarni](https://github.com/ParthPK)
+- [Parth Parag Kulkarni](https://github.com/ParthPK)
 
 External code that was utilized in the project - 
 - Some parts of `train` function in the file `train.py` and `test` function in the file `test.py` were inspired from examples in MinkowskiEngine.
