@@ -1,15 +1,16 @@
 # PoxelNet
-A VoxelNet like approach for Shape Classification that works directly on PointClouds
+A VoxelNet like approach for Shape Classification that works directly on PointClouds. PoxelNet is a combination of Point-based and Volumetric approaches that utilizes the advantages of point-processing and aggregating local information. The Volumetric approach is a Sparse Tensor Network that utilizes Minkowski Engine for efficient sparse operations. 
 
 ## Requirements
 The user needs to have GPU enabled machine with Linux Environment in order to run MinkowskiEngine effectively. 
 
 ### System Requirements
 - Python version >=3.6
-- Linux Machine
+- Linux Machine (requirement of Minkowski Engine)
+- GPU enabled device for inference
 
 ### Python Installations
-- [Pytorch](https://pytorch.org/get-started/locally/)
+- [Pytorch](https://pytorch.org/get-started/locally/) (>= 1.7)
 - [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine)
 - [numpy](https://numpy.org/install/)
 - [scikit-learn](https://scikit-learn.org/stable/install.html)  
@@ -44,6 +45,8 @@ In order to directly get the points, we have provided links to Point Clouds crea
 - [Training data with 2048 points](https://drive.google.com/file/d/1hQAaA40xrD_oiOa1uhUDaoiPZCjxTczV/view?usp=sharing)
 - [Testing data with 2048 points](https://drive.google.com/file/d/1-25-cqUfOo_f-GZq1Z8VMWCvQa_1U1hG/view?usp=sharing)
 
+*Note: In order to do training/testing, the code requires you to provide just the name of the directory. Ensure that "train.npy" and "test.npy" files exist within this directory with exactly the same name. (Rename files with 2048 points accordingly.)*
+
 ## Training
 In order to train the model from scratch, the user needs to run the following command - 
 
@@ -70,7 +73,7 @@ Almost, the entire code of the project is written by -
 - [Parth Kulkarni](https://github.com/ParthPK)
 
 External code that was utilized in the project - 
-- Some parts of `train` function in the file `train.py` was borrowed from examples in MinkowskiEngine
+- Some parts of `train` function in the file `train.py` were borrowed from examples in MinkowskiEngine
 - Volumetric model of Poxelnet was inspired by the *MinkowskiFCNN model* provided in MinkowskiEngine Examples. Link to the example can be found [here](https://github.com/NVIDIA/MinkowskiEngine/blob/master/examples/classification_modelnet40.py).
 
 
