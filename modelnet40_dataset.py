@@ -10,6 +10,7 @@ class ModelNet40(torch.utils.data.Dataset):
         self.phase = phase
         self.transform = transform
 
+        #  make sure the filenames are 'train.npy' and 'test.npy' in the directory of the dataset
         train_data = np.load(os.path.join(DIR_PATH, 'train.npy'), allow_pickle=True)
         test_data = np.load(os.path.join(DIR_PATH, 'test.npy'), allow_pickle=True)
         self.train_points = train_data.item()['points']
@@ -24,6 +25,7 @@ class ModelNet40(torch.utils.data.Dataset):
         else:
             return len(self.test_points)
 
+    # calling the dataset
     def __getitem__(self, idx):
         if self.phase=="train":
             points = self.train_points[idx]
@@ -34,6 +36,7 @@ class ModelNet40(torch.utils.data.Dataset):
         if self.transform is not None:
         	points = self.transform.apply_transformation(points)
         coordinates = points.astype('float32')
+        #  shuffling the points
         np.random.shuffle(points)
         return {
             "coordinates": torch.from_numpy(coordinates),

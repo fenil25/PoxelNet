@@ -2,14 +2,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 import MinkowskiEngine as ME
 
-def get_mlp_block(in_channel, out_channel):
+# MLP block for Voxelized approach
+def mlp_block(in_channel, out_channel):
     return nn.Sequential(
         ME.MinkowskiLinear(in_channel, out_channel, bias=False),
         ME.MinkowskiBatchNorm(out_channel),
         ME.MinkowskiLeakyReLU()
     )
 
-def get_conv_block(in_channel, out_channel, kernel_size, stride):
+# Convolution Block for Voxelized Approach
+def convolution_block(in_channel, out_channel, kernel_size, stride):
     return nn.Sequential(
         ME.MinkowskiConvolution(
             in_channel,
@@ -22,6 +24,7 @@ def get_conv_block(in_channel, out_channel, kernel_size, stride):
         ME.MinkowskiLeakyReLU()
     )
 
+#  PointNet model to process the points into voxels
 class PointNet(ME.MinkowskiNetwork):
     def __init__(self, embedding_dim = 128, dimension = 3):
         ME.MinkowskiNetwork.__init__(self, dimension)
@@ -44,6 +47,7 @@ class PointNet(ME.MinkowskiNetwork):
         out = self.linear3(self.linear2(self.linear1(x)))
         return out
 
+#  Final Model
 class PoxelNet(ME.MinkowskiNetwork):
     def __init__(self, in_channel, out_channel, embedding_channel=1024, D=3):
         ME.MinkowskiNetwork.__init__(self, D)
@@ -55,14 +59,14 @@ class PoxelNet(ME.MinkowskiNetwork):
         
         self.pointnet = PointNet(embedding_dim = 128)
 
-        self.conv1 = get_conv_block(128, 156, kernel_size=kernel_size, stride=1)
-        self.conv2 = get_conv_block(156, 192, kernel_size=kernel_size, stride=2)
-        self.conv3 = get_conv_block(192, 228, kernel_size=kernel_size, stride=2)
-        self.conv4 = get_conv_block(228, 256, kernel_size=kernel_size, stride=2)
+        self.conv1 = convolution_block(128, 156, kernel_size=kernel_size, stride=1)
+        self.conv2 = convolution_block(156, 192, kernel_size=kernel_size, stride=2)
+        self.conv3 = convolution_block(192, 228, kernel_size=kernel_size, stride=2)
+        self.conv4 = convolution_block(228, 256, kernel_size=kernel_size, stride=2)
         self.conv5 = nn.Sequential(
-            get_conv_block(156+192+228+256, embedding_channel // 4, kernel_size=3, stride=2),
-            get_conv_block(embedding_channel // 4, embedding_channel // 2, kernel_size=3, stride=2),
-            get_conv_block(embedding_channel // 2, embedding_channel, kernel_size=3, stride=2),
+            convolution_block(156+192+228+256, embedding_channel // 4, kernel_size=3, stride=2),
+            convolution_block(embedding_channel // 4, embedding_channel // 2, kernel_size=3, stride=2),
+            convolution_block(embedding_channel // 2, embedding_channel, kernel_size=3, stride=2),
         )
 
         self.pool = ME.MinkowskiMaxPooling(kernel_size=3, stride=2, dimension=D)
@@ -71,12 +75,13 @@ class PoxelNet(ME.MinkowskiNetwork):
         self.global_avg_pool = ME.MinkowskiGlobalAvgPooling()
 
         self.final = nn.Sequential(
-            get_mlp_block(embedding_channel * 2, 512),
+            mlp_block(embedding_channel * 2, 512),
             ME.MinkowskiDropout(),
-            get_mlp_block(512, 512),
+            mlp_block(512, 512),
             ME.MinkowskiLinear(512, out_channel, bias=True),
         )
 
+    # Kaiming Normal Weight initialization
     def weight_initialization(self):
         for m in self.modules():
             if isinstance(m, ME.MinkowskiConvolution):

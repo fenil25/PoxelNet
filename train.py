@@ -12,11 +12,16 @@ import argparse
 
 
 def train(net, dataset, test_dataset, device, args):
+
+    # SCD Optimizer
     optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
+
+    # Cosine Annealing Scheduler
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.max_steps)
 
     curr_iter = 0
 
+    # To load a pretrained model
     if args.load_pretrained:
       print('Loading model from saved state...')
       checkpoint = torch.load(args.path_weights)
@@ -25,13 +30,15 @@ def train(net, dataset, test_dataset, device, args):
       scheduler.load_state_dict(checkpoint['scheduler'])
       curr_iter = checkpoint['curr_iter']
 
+    # loading the dataset into a dataloader
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=args.batch_size, shuffle=True, collate_fn=collate_function)
     train_iter = iter(dataloader)
     best_metric = 0
     net.train()
 
-    print("Starting the training from scratch")
+    print("Starting the training...")
 
+    # Start Training
     for i in range(curr_iter, curr_iter+args.max_steps):
         optimizer.zero_grad()
         
@@ -55,9 +62,11 @@ def train(net, dataset, test_dataset, device, args):
 
         torch.cuda.empty_cache()
 
+        # Print current loss
         if i % args.stat_freq == 0:
             print(f"Iter: {i}, Loss: {loss.item():.3e}")
-
+        
+        # Perform validation and save the best model
         if i % args.val_freq == 0 and i > 0:
 
             accuracy = test(net, test_dataset, device, args)
@@ -102,6 +111,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
 
+    # Data augmentation
     ctr = CoordinateTransformation(
         scale_range=(1-args.scale_factor, 1+args.scale_factor), 
         rot_range = {"X": (-args.degree_rot, args.degree_rot), 
@@ -111,6 +121,7 @@ if __name__ == '__main__':
         rotations=args.axis_rotations
     )
 
+    # Loading the data
     print("Loading the ModelNet40 dataset...")
     train_dataset = ModelNet40(args.path_to_dataset, phase = "train", transform = ctr)
     test_dataset = ModelNet40(args.path_to_dataset, phase = "test", transform = None)

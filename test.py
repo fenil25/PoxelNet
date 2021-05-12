@@ -10,6 +10,7 @@ import argparse
 import numpy as np
 
 def test(net, test_dataset, device, args):
+    # load the dataset into dataloader
     dataloader = torch.utils.data.DataLoader(test_dataset, batch_size = args.batch_size, shuffle = False, collate_fn=collate_function)
 
     net.eval()
@@ -39,13 +40,16 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
 
+    # load the data
     print("Loading the test dataset...")
     test_dataset = ModelNet40(args.path_to_dataset, phase = "test", transform = None)
     print("Dataset successfully loaded")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    # call the model
     net = PoxelNet(in_channel = 3, out_channel = 40, embedding_channel = 1024).to(device)
+    # load the pretrained model
     checkpoint = torch.load(args.path_weights)
     net.load_state_dict(checkpoint['state_dict'])
     print("Trained PoxelNet model loaded")

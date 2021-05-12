@@ -4,10 +4,12 @@ import MinkowskiEngine as ME
 import torch
 import torch.nn.functional as F
 
+# display the mesh
 def show_mesh(path):
     mesh = trimesh.load(path)
     return mesh.show()
 
+# display the point cloud sampled from the mesh
 def show_point_cloud(path, N = 2048):
     mesh = trimesh.load(path)
     points = mesh.sample(N)
@@ -16,12 +18,14 @@ def show_point_cloud(path, N = 2048):
     ax.scatter(points[:, 0], points[:, 1], points[:, 2])
     ax.set_axis_off()
 
+# display points of the point cloud
 def display_points(points):
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection="3d")
     ax.scatter(points[:, 0], points[:, 1], points[:, 2])
     ax.set_axis_off()
 
+# Collating batches into Minkowski sparse tensor 
 def collate_function(batch_data):
     coordinates, features, labels = [], [], []
     for batch in batch_data:
@@ -37,13 +41,13 @@ def collate_function(batch_data):
         "labels": torch.tensor(labels, dtype=torch.int64)
     }
 
+# Creating a batch for training
 def create_input_batch(batch, device="cpu", quantization_size=0.05):
     batch["coordinates"][:, 1:] = batch["coordinates"][:, 1:] / quantization_size
     return ME.TensorField(coordinates=batch["coordinates"], features=batch["features"], device=device)
 
+#  Calculating cross entropy loss and label smoothing
 def criterion(pred, labels, smoothing=True):
-    """ Calculate cross entropy loss, apply label smoothing if needed. """
-
     labels = labels.contiguous().view(-1)
     if smoothing:
         eps = 0.2

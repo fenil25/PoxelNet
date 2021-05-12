@@ -18,14 +18,18 @@ test_points, test_labels = [], []
 DIR_PATH = args.path
 
 for idx, class_name in enumerate(os.listdir(DIR_PATH)):
+	# loading the pointcloud files
 	map[idx] = class_name
 	train_class_path = os.path.join(DIR_PATH, class_name, "train")
 	test_class_path = os.path.join(DIR_PATH, class_name, "test")
 	print(f"Creating training set for class {class_name}")
 	for file_name in os.listdir(train_class_path):
 		train_file_name = os.path.join(train_class_path, file_name)
+		#  loading the training mesh
 		mesh = trimesh.load(train_file_name)
+		# uniformly sample the training mesh
 		points = mesh.sample(args.N).astype('float32')
+		# scale the points to (-1,1)
 		scaler = MinMaxScaler((-1, 1))
 		points = scaler.fit_transform(points)
 		train_points.append(points)
@@ -33,8 +37,11 @@ for idx, class_name in enumerate(os.listdir(DIR_PATH)):
 	print(f"Creating testing set for class {class_name}")
 	for file_name in os.listdir(test_class_path):
 		test_file_name = os.path.join(test_class_path, file_name)
+		#  loading the testing mesh
 		mesh = trimesh.load(test_file_name)
+		# uniformly sample the testing mesh
 		points = mesh.sample(args.N).astype('float32')
+		# scale the points to (-1,1)
 		scaler = MinMaxScaler((-1, 1))
 		points = scaler.fit_transform(points)
 		test_points.append(points)
