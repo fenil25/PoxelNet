@@ -5,7 +5,7 @@ A VoxelNet like approach for Shape Classification that works directly on PointCl
 The user needs to have GPU enabled machine with Linux Environment in order to run MinkowskiEngine effectively. 
 
 ### System Requirements
-- Python
+- Python version >=3.6
 - Linux Machine
 
 ### Python Installations
@@ -26,7 +26,7 @@ Links for downloading -
 - ```ModelNet 40```: http://modelnet.cs.princeton.edu/ModelNet40.zip
 
 The files can be viewed using - 
-- ```Notepad```: For seeing vertex and face information
+- ```Any text editor```: For seeing vertex and face information
 - ```MeshLab```: For seeing the CAD model
 - We have also provided helper functions in ```utils.py``` that allows the user to inspect the meshes using ```trimesh```.
 
@@ -63,7 +63,7 @@ Note: The *path to dataset* should include the path to the directory. The direct
 
 
 
-## Contrinutions
+## Contributions
 Almost, the entire code of the project is written by - 
 - [Fenil Doshi](https://github.com/fenil25)
 - [Jimit Gandhi](https://github.com/jimitgandhi)
