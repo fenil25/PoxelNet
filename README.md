@@ -67,23 +67,6 @@ Note: The *path to dataset* should include the path to the directory. The direct
 Note: To test the provided `poxelnet_2048.pth` model (Model trained with 2048 points), make sure to use the dataset with 2048 points as `train.npy` and `test.npy`. Similarly, to test the provided `poxelnet_4096.pth` model (Model trained with 4096 points), make sure to use the dataset with 4096 points as `train.npy` and `test.npy`.
 
 
-## Contributions
-Almost, the entire code of the project is written by - 
-- [Fenil Manish Doshi](https://github.com/fenil25)
-- [Jimit Gandhi](https://github.com/jimitgandhi)
-- [Parth Parag Kulkarni](https://github.com/ParthPK)
-
-External code that was utilized in the project - 
-- Some parts of `train` function in the file `train.py` and `test` function in the file `test.py` were inspired from examples in MinkowskiEngine.
-- Volumetric model of Poxelnet in `model.py` was inspired by the *MinkowskiFCNN model* provided in MinkowskiEngine Examples.
-- Link to the MinkowskiEngine example can be found [here](https://github.com/NVIDIA/MinkowskiEngine/blob/master/examples/classification_modelnet40.py).
-
-
-### Individual Contributions 
-- **Fenil Manish Doshi:** Fenil worked on the ```transformations.py``` file and `modelnet40_dataset.py` alongwith lines 50-122 of the `model.py` file. 
-- **Jimit Gandhi:** Jimit worked on writing the code for `create_point_cloud.py` and worked on `train.py` as well as lines 1-30 of the `test.py` file. 
-- **Parth Parag Kulkarni:** Parth worked on the helper functions in `utils.py` and lines 1-50 in the `model.py` file as well as lines 30-58 of the `test.py` file.
-
 
 
 
